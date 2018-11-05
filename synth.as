@@ -1,16 +1,16 @@
-﻿// as package for analogous circle synth //
+﻿// as package for analogous circle synth
 package
 {
 	import geometry.SteinerChain;
 	import geometry.atoms.Circle;
-									/*SteinerChain geometry by Andre Michelle*/
+	//SteinerChain geometry by Andre Michelle
 	import flash.media.Sound;
 	import flash.events.SampleDataEvent;
 	import flash.events.MouseEvent;
 	import flash.media.SoundChannel;
     import flash.media.SoundTransform;
     import flash.events.IOErrorEvent;
-																	//sound elements//
+	//sound elements
 	import flash.display.BlendMode;
 	import flash.display.Graphics;
 	import flash.display.Shape;
@@ -23,7 +23,7 @@ package
 
 
 	[SWF(backgroundColor="#121212", frameRate="50", width="600", height="600")]
-																// my canvas properties //
+	// my canvas properties
 
 	public final class synth extends Sprite
 	{
@@ -31,7 +31,7 @@ package
 		private const chain: SteinerChain = new SteinerChain( 7, 240.0 );
 		private const canvas: Shape = new Shape();
 		private var speed: Number = 0.0;
-																//circle variables defined //
+		//circle variables defined
 
 		public function synth()
 		{
@@ -44,23 +44,23 @@ package
 			stage.addEventListener( Event.ENTER_FRAME, enterFrame );
 			stage.addEventListener( Event.RESIZE, resize );
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, keyDown );
-																			//stage events //
+			//stage events
 			enterFrame( null );
 			resize( null );
 
 			var position:int = 0;
 			var sound:Sound = new Sound();
 			sound.addEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData);
-																					// sound events //
+			// sound events
 
             var channel:SoundChannel;
-																							// sound channel //
+			// sound channel
             var transform:SoundTransform = new SoundTransform((circle.y * .1), ((circle.x)-1) );
-																			// sound transforms- volume and pan //
+			// sound transforms- volume and pan
 
             channel = sound.play();
             channel.soundTransform = transform;
-																// sound play and transform //
+			// sound play and transform
 
 			function onSampleData(event:SampleDataEvent):void
 			{
@@ -69,10 +69,10 @@ package
 			var phase:Number = position  / 44100 * Math.PI * 2;
 			position ++;
 			var sample:Number = Math.sin(phase * circle.r * speed * 50);
-																			// phase and sine wave generation //
+			// phase and sine wave generation
 
-			event.data.writeFloat(sample); // left //
-			event.data.writeFloat(sample); // right //
+			event.data.writeFloat(sample); // left
+			event.data.writeFloat(sample); // right
 			}
 			}
 		}
@@ -85,7 +85,7 @@ package
 			chain.yOffset = canvas.mouseY * 0.01;
 			chain.angle += speed;
 			chain.editMode = false;
-															// make canvas and track mouse //
+			// make canvas and track mouse
 			const g: Graphics = canvas.graphics;
 
 			g.clear();
@@ -94,13 +94,13 @@ package
 			chain.setCircleOuter( circle );
 			g.drawCircle( circle.x, circle.y, circle.r );
 			g.endFill();
-																// circles background //
+			// circles background
 
 			g.beginFill( 0x3CFFFF );
 			chain.setCircleInner( circle );
 			g.drawCircle( circle.x, circle.y, circle.r );
 			g.endFill();
-																	// traking circle //
+			// traking circle
 
 			var i: int = 0;
 			var n: int = chain.numCircles;
@@ -111,7 +111,7 @@ package
 				chain.setCircleByIndex( circle, i );
 				g.drawCircle( circle.x, circle.y, circle.r );
 				g.endFill();
-																	// added circles //
+				// added circles
 			}
 		}
 
@@ -122,14 +122,14 @@ package
 			else
 			if( event.keyCode == Keyboard.DOWN )
 				chain.numCircles--;
-															// arrow controls- # of added circles & frequency //
+			// arrow controls- # of added circles & frequency
 
 			if( event.keyCode == Keyboard.LEFT )
 				speed += 0.01;
 			else
 			if( event.keyCode == Keyboard.RIGHT )
 				speed -= 0.01;
-															// arrow controls- circle speed & sequencing //
+			// arrow controls- circle speed & sequencing
 
 
 			if( speed > 0.2 )
@@ -137,7 +137,7 @@ package
 			else
 			if( speed < -0.2 )
 				speed = -0.2;
-												// speed caps //
+			// speed caps
 		}
 
 		private function resize( event: Event ): void
@@ -149,7 +149,7 @@ package
 			canvas.y = h * 0.5;
 
 			chain.radius = Math.min( w, h ) * 0.4;
-															// resize proportions //
+			// resize proportions
 		}
 	}
 }
